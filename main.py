@@ -55,8 +55,8 @@ def printMatrix(matrix):
 
 
 if __name__ == '__main__':
-    myMatrix = accessMap('tc-6.txt')
-    myWords = accessWord('tc-6.txt')
+    myMatrix = accessMap('tc-5.txt')
+    myWords = accessWord('tc-5.txt')
     printMatrix(myMatrix)
     print(len(myWords))
     print(myWords)
