@@ -1,0 +1,17 @@
+15
+----------#----
+-#-#-#-#-###-#-
+-----#---------
+-#-#-#-#-#-#-#-
+--------#------
+-#-#-#-#-#-#-#-
+-----#--------#
+-###-#-#-#-###-
+#--------#-----
+-#-#-#-#-#-#-#-
+------#--------
+-#-#-#-#-#-#-#-
+---------#-----
+-#-###-#-#-#-#-
+----#----------
+STANDGUARD;SARGASSO;ATISSUE;DISINTEGRATED;UNRESERVED;RISK;UKRAINE;FLYASH;BUFF;RUINS;RASPBERRY;ARSONIST;PLAITS;SCENE;REPAIRED;EMERGENT;ROBIN;MAGNATE;OPHTHALMIC;BILLIARDTABLE;BLOSSOM;INUNISON;LIMBER;LINGOTS;CASTDOWN;BOARDROOM;BUSTS;RHEA;HATCHETMAN;SODA
