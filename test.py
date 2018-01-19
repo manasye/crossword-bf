@@ -240,7 +240,7 @@ def solve_crossword(board, slot_list, word_inserted=0):
     if word_inserted == len(slot_list):
         final_result = board
         process_done = True
-        return
+        return True
 
     # Gather slot data to be filled
     slot_type = slot_list[word_inserted][0]
@@ -318,7 +318,7 @@ if __name__ == "__main__":
     word_list = group_words_by_len(raw_words)
     #print(word_list)# Separated word by len
     slot_list = get_board_data(board)
-    #print(slot_list)
+    print(slot_list)
 
     # Solving the crossword
     final_result = None
@@ -334,4 +334,4 @@ if __name__ == "__main__":
 
     # Display output
     print_board(final_result)
-print_word_list(word_list)
+#print_word_list(word_list)
