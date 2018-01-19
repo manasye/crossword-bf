@@ -54,6 +54,7 @@ def printMatrix(matrix):
 def accessSpaces(matrix):
     spaces = []
     counter = 0
+
     # access vertically
     for j in range(0,len(matrix)):
         i = 0
@@ -61,7 +62,7 @@ def accessSpaces(matrix):
             if(matrix[j][i] == '-') and (matrix[j][i+1] == '-'):
                 spaces.append([])
                 start = [j,i]
-                print(start)
+                #print(start)
 
                 a = i
                 length = 1
@@ -71,25 +72,56 @@ def accessSpaces(matrix):
                     a = a + 1
 
                 finish = [j,a+1]
-                print(finish)
-                print(length)
                 i = i + length
 
                 spaces[counter].append(start)
                 spaces[counter].append(finish)
                 spaces[counter].append(length)
+                spaces[counter].append('v')
                 counter = counter + 1
             else :
                 i = i + 1
-    print(spaces)
-    print(len(spaces))
+
+    # access horizontally
+    for i in range(0,len(matrix)):
+        j = 0
+        while(j < len(matrix)-1):
+            if (matrix[j][i] == '-') and (matrix[j+1][i] == '-'):
+                spaces.append([])
+                start = [j, i]
+                #print(start)
+
+                a = j
+                length = 1
+
+                while (matrix[a+1][i] == '-') and (a + 1 < len(matrix) - 1):
+                    length = length + 1
+                    a = a + 1
+
+                finish = [a + 1 ,i]
+                j = j + length
+
+                spaces[counter].append(start)
+                spaces[counter].append(finish)
+                spaces[counter].append(length)
+                spaces[counter].append('h')
+                counter = counter + 1
+            else:
+                j = j + 1
+    return spaces
+
 #def solveMatrix(matrix,words):
 
 if __name__ == '__main__':
-    myMatrix = accessMap('tc-0.txt')
-    myWords = accessWord('tc-0.txt')
+    file = input('Please input the file name (with extension): ')
+    myMatrix = accessMap(file)
+    myWords = accessWord(file)
+    mySpaces = accessSpaces(myMatrix)
+    print('Initial state is :\n')
     printMatrix(myMatrix)
-    #print(myMatrix[0][3])
-    accessSpaces(myMatrix)
+    print('\nList of words :')
+    print(myWords)
+
+    print(mySpaces)
     #print(len(myWords))
     #print(myWords)

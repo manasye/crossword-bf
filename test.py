@@ -315,8 +315,10 @@ if __name__ == "__main__":
 
     # Gather required information
     board, raw_words = parse_file()
-    word_list = group_words_by_len(raw_words)  # Separated word by len
+    word_list = group_words_by_len(raw_words)
+    #print(word_list)# Separated word by len
     slot_list = get_board_data(board)
+    #print(slot_list)
 
     # Solving the crossword
     final_result = None
@@ -328,9 +330,8 @@ if __name__ == "__main__":
 
     # Stop timer
     toc = time.clock()
-    print(tic)
-    print(toc)
+    print(toc-tic)
 
     # Display output
     print_board(final_result)
-# print_word_list(word_list)
+print_word_list(word_list)
