@@ -190,7 +190,7 @@ def get_board_data(board):
 
                 # Get cell information
                 horizontal_edge, vertical_edge = is_edge(row, col)
-
+                print(horizontal_edge,vertical_edge)
                 # Count length of horizontal empty slot
                 if horizontal_edge:
                     length = 0
@@ -322,7 +322,7 @@ if __name__ == "__main__":
     #print(raw_words)
     word_list = group_words_by_len(raw_words)
     print(word_list)
-    #print(word_list)# Separated word by len
+    print(word_list)# Separated word by len
     slot_list = get_board_data(board)
     print(slot_list)
 

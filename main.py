@@ -66,74 +66,77 @@ def printMatrix(matrix):
             print(' ',end = '')
         print('')
 
+# Function to check whether certain coordinate is in edge (for spaces checking purposes)
+def isEdges(matrix,i,j):
+
+    if i-1 >=0:
+        up = bool(matrix[i-1][j] == '-')
+    else:
+        up = False
+
+    try:
+        down = bool(matrix[i+1][j] == '-')
+    except:
+        down = False
+
+    if j-1 >= 0:
+        left = bool(matrix[i][j-1] == '-')
+    else:
+        left = False
+
+    try:
+        right = bool(matrix[i][j+1] == '-')
+    except:
+        right = False
+
+    return (up^down),(left^right)
+
+
 def accessSpaces(matrix):
     spaces = []
     counter = 0
 
-    # access vertical spaces
-    for i in range(0,len(matrix)):
-        j = 0
-        while(j < len(matrix) - 1):
-            if (matrix[j][i] == '-') and (matrix[j+1][i] == '-'):
-                spaces.append([])
-                start = [j, i]
-                #print(start)
-                a = j
-                length = 0
+    for i in range (0,len(matrix)):
+        for j in range (0,len(matrix)):
 
-                while (matrix[a][i] == '-') and (a < len(matrix) - 1):
-                    length = length + 1
-                    a = a + 1
+            if(matrix[i][j]) == '-':
+                ver,hor = isEdges(matrix,i,j)
+                #print(ver,hor)
+                if hor:
+                    length = 0
+                    check = True
+                    while check:
+                        try:
+                            if matrix[i][j+length] == '-':
+                                length = length + 1
+                            else :
+                                check = False
+                        except:
+                            check = False
+                    if(length >= 2):
+                        spaces.append([])
+                        spaces[counter].append([i, j])
+                        spaces[counter].append(length)
+                        spaces[counter].append('h')
+                        counter += 1
 
-                if(a == len(matrix)-1) and matrix[a][i] == '-':
-                    finish = [a , i]
-                    j = j + length
-                    length = length + 1
-                else:
-                    finish = [a-1 ,i]
-                    j = j + length
-
-                # Append to list of spaces
-                spaces[counter].append(start)
-                spaces[counter].append(finish)
-                spaces[counter].append(length)
-                spaces[counter].append('v')
-                counter = counter + 1
-            else:
-                j = j + 1
-
-    # access horizontal spaces
-    for j in range(0, len(matrix)):
-        i = 0
-        while (i < len(matrix) - 1):
-            if (matrix[j][i] == '-') and (matrix[j][i + 1] == '-'):
-                spaces.append([])
-                start = [j, i]
-
-                a = i
-                length = 0
-
-                while (matrix[j][a] == '-') and (a < len(matrix) - 1):
-                    length = length + 1
-                    a = a + 1
-
-                if (a == len(matrix) - 1) and matrix[a][i] == '-':
-                    finish = [j,a]
-                    i = i + length
-                    length = length + 1
-
-                else:
-                    finish = [j,a - 1]
-                    i = i + length
-
-                # Append to list of spaces
-                spaces[counter].append(start)
-                spaces[counter].append(finish)
-                spaces[counter].append(length)
-                spaces[counter].append('h')
-                counter = counter + 1
-            else:
-                i = i + 1
+                if ver:
+                    length = 0
+                    check = True
+                    while check:
+                        try:
+                            if matrix[i + length][j] == '-':
+                                length = length + 1
+                            else:
+                                check = False
+                        except:
+                            check = False
+                    if (length >= 2):
+                        spaces.append([])
+                        spaces[counter].append([i, j])
+                        spaces[counter].append(length)
+                        spaces[counter].append('v')
+                        counter += 1
 
     return spaces
 
@@ -150,15 +153,15 @@ def solveMatrix(matrix,spaces,words,filled=0):
 
     spStartRow = spaces[filled][0][0]
     spStartCol = spaces[filled][0][1]
-    spLen = spaces[filled][2]
-    spType = spaces[filled][3]
+    spLen = spaces[filled][1]
+    spType = spaces[filled][2]
 
     for word in words[spLen]:
 
-        if not word['avail']:
+        if word['avail'] == False:
             continue
-
-        matched = True
+        else:
+            matched = True
 
         if spType == 'v':
             for i in range(0,spLen):
@@ -167,41 +170,43 @@ def solveMatrix(matrix,spaces,words,filled=0):
                     matched = False
                 #print(matched)
 
-        elif spType == 'h':
+        else :
             for i in range(0,spLen):
                 curr = matrix[spStartRow][spStartCol+i]
                 if (curr != '-') and (curr != word['word'][i]):
                     matched = False
 
         if matched:
-            backtr = ''
 
+            backtr = ""
             for i in range(0,spLen):
                 if(spType == 'v'):
                     backtr += matrix[spStartRow + i][spStartCol]
                     matrix[spStartRow + i][spStartCol] = word['word'][i]
 
-                elif spType == 'h':
+                else :
                     backtr += matrix[spStartRow][spStartCol + i]
                     matrix[spStartRow][spStartCol + i] = word['word'][i]
 
             word['avail'] = False
 
-            print('\n')
-            printMatrix(matrix)
-            print(filled)
+            #print('\n')
+            #printMatrix(matrix)
+            #print(filled)
 
             solveMatrix(matrix,spaces,words,filled=filled+1)
 
             if done:
                 return True
+
             else:
                 word['avail'] = True
                 for i in range(0,spLen):
                     if (spType == 'v'):
                         matrix[spStartRow + i][spStartCol] = backtr[i]
-                    elif spType == 'h':
+                    else :
                         matrix[spStartRow][spStartCol + i] = backtr[i]
+
 
 if __name__ == '__main__':
     file = input('Please input the file name (with extension): ')
@@ -209,13 +214,13 @@ if __name__ == '__main__':
     myWords = accessWord(file)
     #print(myWords)
     mySpaces = accessSpaces(myMatrix)
-    #print(mySpaces)
+   # print(mySpaces)
 
     print('\nInitial state is :')
     printMatrix(myMatrix)
 
     # Initialization
-    result = None
+    result = []
     done = False
 
     begin = time.clock()
@@ -224,7 +229,7 @@ if __name__ == '__main__':
 
     print('\nResult is :\n')
 
-    if(result == None):
+    if(result == []):
         print('Unsolvable..')
     else:
         printMatrix(result)
