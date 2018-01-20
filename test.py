@@ -247,6 +247,7 @@ def solve_crossword(board, slot_list, word_inserted=0):
     start_row = slot_list[word_inserted][1]
     start_col = slot_list[word_inserted][2]
     slot_len = slot_list[word_inserted][3]
+    #print(slot_len)
 
     # Try every word with same length as slot
     for word in word_list[slot_len]:
@@ -289,6 +290,9 @@ def solve_crossword(board, slot_list, word_inserted=0):
             # Set that word to unavailable (used)
             word['available'] = 0
 
+            #print('\n')
+            #print_board(board)
+            #print(word_inserted)
             # Recursive until all slot filled
             solve_crossword(board, slot_list, word_inserted=word_inserted + 1)
 
@@ -315,7 +319,9 @@ if __name__ == "__main__":
 
     # Gather required information
     board, raw_words = parse_file()
+    #print(raw_words)
     word_list = group_words_by_len(raw_words)
+    print(word_list)
     #print(word_list)# Separated word by len
     slot_list = get_board_data(board)
     print(slot_list)
