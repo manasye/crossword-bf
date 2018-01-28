@@ -53,8 +53,7 @@ def accessWord(fileName):
 
     # Separate words based on it's length
     for word in words:
-        entry = {"word": word, "avail": True}
-        wlist[len(word)].append(entry)
+        wlist[len(word)].append({"word": word})
 
     return wlist
 
@@ -67,30 +66,29 @@ def printMatrix(matrix):
         print('')
 
 # Function to check whether certain coordinate is in edge (for spaces checking purposes)
-def isEdges(matrix,i,j):
+def horOrVer(matrix,i,j):
 
     if i-1 >=0:
-        up = bool(matrix[i-1][j] == '-')
+        up = (matrix[i-1][j] == '-')
     else:
         up = False
 
     try:
-        down = bool(matrix[i+1][j] == '-')
+        down = (matrix[i+1][j] == '-')
     except:
         down = False
 
     if j-1 >= 0:
-        left = bool(matrix[i][j-1] == '-')
+        left = (matrix[i][j-1] == '-')
     else:
         left = False
 
     try:
-        right = bool(matrix[i][j+1] == '-')
+        right = (matrix[i][j+1] == '-')
     except:
         right = False
 
-    return (up^down),(left^right)
-
+    return (not(up and down)),(not(left and right))
 
 def accessSpaces(matrix):
     spaces = []
@@ -100,7 +98,7 @@ def accessSpaces(matrix):
         for j in range (0,len(matrix)):
 
             if(matrix[i][j]) == '-':
-                ver,hor = isEdges(matrix,i,j)
+                ver,hor = horOrVer(matrix,i,j)
                 #print(ver,hor)
                 if hor:
                     length = 0
@@ -143,7 +141,7 @@ def accessSpaces(matrix):
 # Function that do bruteforce to search for solution
 def solveMatrix(matrix,spaces,words,filled=0):
 
-    global result, done
+    global result,done
 
     # Basis (stop when all spaces been filled)
     if filled == len(spaces):
@@ -158,23 +156,26 @@ def solveMatrix(matrix,spaces,words,filled=0):
 
     for word in words[spLen]:
 
-        if word['avail'] == False:
-            continue
-        else:
-            matched = True
+
+        matched = True
 
         if spType == 'v':
-            for i in range(0,spLen):
+            i = 0
+            while(i<spLen) and matched :
                 curr = matrix[spStartRow+i][spStartCol]
                 if (curr != '-') and (curr != word['word'][i]):
                     matched = False
-                #print(matched)
+                else :
+                    i += 1
 
         else :
-            for i in range(0,spLen):
+            i = 0
+            while (i < spLen) and matched:
                 curr = matrix[spStartRow][spStartCol+i]
                 if (curr != '-') and (curr != word['word'][i]):
                     matched = False
+                else :
+                    i += 1
 
         if matched:
 
@@ -188,8 +189,6 @@ def solveMatrix(matrix,spaces,words,filled=0):
                     backtr += matrix[spStartRow][spStartCol + i]
                     matrix[spStartRow][spStartCol + i] = word['word'][i]
 
-            word['avail'] = False
-
             #print('\n')
             #printMatrix(matrix)
             #print(filled)
@@ -200,7 +199,7 @@ def solveMatrix(matrix,spaces,words,filled=0):
                 return True
 
             else:
-                word['avail'] = True
+
                 for i in range(0,spLen):
                     if (spType == 'v'):
                         matrix[spStartRow + i][spStartCol] = backtr[i]

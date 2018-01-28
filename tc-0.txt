@@ -3,5 +3,5 @@
 ----
 -#-#
 ----
-ccaa;baca;baaa;bbbb;bbb
+bbbb
 
